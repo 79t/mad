@@ -19,7 +19,6 @@ export default function TabOneScreen() {
   const [answer, setAnswer] = useState("");
   const [position, setPosition] = useState(0);
   const [open, setOpen] = useState(false);
-  // const [v,sV] = useState<boolean[]>([]);
   const spMode = "fit";
   const modal = false;
 
@@ -81,23 +80,8 @@ export default function TabOneScreen() {
 
   useEffect(() => {
     getTossup();
-    // const gD = async () => {
-    //   const x = await AsyncStorage.getItem('difficulties')
-    //   sV(JSON.parse(x as string));
-    // }
-    // gD();
   }, []);
 
-  // useEffect(() => {
-    
-  //     const gD = async () => {
-  //       const x = await AsyncStorage.getItem('difficulties')
-  //       if (x == null) sV([false,false])
-  //       sV(JSON.parse(x as string));
-  //     }
-  //     gD();
-   
-  // })
 
   const {difficulties, setDifficulty} = useTossupSettings();
 

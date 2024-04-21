@@ -16,13 +16,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.exporouterexample"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.exporouterexample"
     },
     "web": {
       "bundler": "metro",
@@ -34,7 +36,10 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/Inter-Medium.otf","./assets/fonts/Inter-Bold.otf"]
+          "fonts": [
+            "./assets/fonts/Inter-Medium.otf",
+            "./assets/fonts/Inter-Bold.otf"
+          ]
         }
       ]
     ],
