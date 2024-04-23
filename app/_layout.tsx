@@ -3,7 +3,11 @@ import { SplashScreen, Stack } from 'expo-router'
 import { useColorScheme } from 'react-native'
 import { TamaguiProvider } from 'tamagui'
 
-import '../tamagui-web.css'
+import { Platform } from "react-native";
+
+if (Platform.OS === "web") {
+  import('../tamagui-web.css')
+}
 
 import { config } from '../tamagui.config'
 import { useFonts } from 'expo-font'
@@ -17,7 +21,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: 'index',
 }
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -66,6 +70,7 @@ function RootLayoutNav() {
     <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
+          {/* <Stack.Screen name="start" /> */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="TossupSettingsModal" options={{ presentation: 'modal', title: 'Tossup Settings' }} />
           <Stack.Screen name="BonusSettingsModal" options={{ presentation: 'modal', title: 'Bonus Settings' }} />

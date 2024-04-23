@@ -1,26 +1,32 @@
 import { create } from "zustand";
-import { StateStorage, persist, createJSONStorage } from "zustand/middleware";
-import { MMKV } from "react-native-mmkv";
+import { persist, createJSONStorage } from "zustand/middleware";
+// import { MMKV } from "react-native-mmkv";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const storage = new MMKV();
+// const storage = new MMKV();
 
-const zustandStorage: StateStorage = {
-  setItem: (name, value) => {
-    return storage.set(name, value);
-  },
-  getItem: (name) => {
-    const value = storage.getString(name);
-    return value ?? null;
-  },
-  removeItem: (name) => {
-    return storage.delete(name);
-  },
-};
+// const zustandStorage: StateStorage = {
+//   setItem: (name, value) => {
+//     return storage.set(name, value);
+//   },
+//   getItem: (name) => {
+//     const value = storage.getString(name);
+//     return value ?? null;
+//   },
+//   removeItem: (name) => {
+//     return storage.delete(name);
+//   },
+// };
 
 export type TossupSettings = {
   difficulties: boolean[];
   setDifficulty: (index: number, value: boolean) => void;
+  categories: Set<string>,
+  addCategory: (category: string) => void
+  removeCategory: (category: string) => void
 };
+
+new Set()
 
 export const useTossupSettings = create<TossupSettings>()(
   persist(
@@ -42,10 +48,13 @@ export const useTossupSettings = create<TossupSettings>()(
         arrCopy[index] = value;
         set({ difficulties: arrCopy }, false);
       },
+      categories: new Set<string>(),
+      addCategory: (category) => set((state) => ({ categories: new Set(state.categories).add(category)})),
+      removeCategory: (category) => set((state) => ({ categories: new Set([...state.categories].filter(cat => cat !== category))})),
     }),
     {
       name: "tossupSettingsStorage", // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => zustandStorage), // (optional) by default, 'localStorage' is used
+      storage: createJSONStorage(() => AsyncStorage) // (optional) by default, 'localStorage' is used
     }
   )
 );

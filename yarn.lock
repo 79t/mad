@@ -9457,7 +9457,6 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-helmet-async: "npm:~2.0.4"
     react-native: "npm:0.73.6"
-    react-native-mmkv: "npm:^2.12.2"
     react-native-reanimated: "npm:~3.6.2"
     react-native-safe-area-context: "npm:4.8.2"
     react-native-screens: "npm:~3.29.0"
@@ -11100,16 +11099,6 @@ __metadata:
     react-native-svg:
       optional: true
   checksum: 5d99c7bfe0ef7b75032b60b162c3991fa162d200d3c5f64935e6a31c888173532bf06e6a551286b18ad20f419926af8fb64aa6884feccd76f38aacae517acbf5
-  languageName: node
-  linkType: hard
-
-"react-native-mmkv@npm:^2.12.2":
-  version: 2.12.2
-  resolution: "react-native-mmkv@npm:2.12.2"
-  peerDependencies:
-    react: "*"
-    react-native: ">=0.71.0"
-  checksum: c1ebb8e81905ee8ce17858ff6096525cbdd0e51892dca80a3cd6e26feb5e979a9c7d609c5a55886150efb0136c5899de174c71115f81607019ed7af68678797b
   languageName: node
   linkType: hard
 

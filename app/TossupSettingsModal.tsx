@@ -3,16 +3,28 @@ import {useState, useEffect} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChevronDown, Check as CheckIcon } from '@tamagui/lucide-icons';
 import {useTossupSettings} from './stores/TossupSettingsStore'
-import type { TossupSettings } from './stores/TossupSettingsStore';
+
+function CategoryCheckBox({category, } : {category:string}) {
+  return (
+    <YStack width={300}>
+    <XStack width={300} ai='center'>
+      <Checkbox id={`cb${category.replace(' ', '_').toLowerCase()}`} size='$3' mr='$3' checked={1+1==2} onCheckedChange={(v) => v as boolean}>
+        <Checkbox.Indicator>
+          <CheckIcon />
+        </Checkbox.Indicator>
+      </Checkbox>
+
+      <Label htmlFor={`cb${category.replace(' ', '_').toLowerCase()}`} size='$3'>
+        {category}
+      </Label>
+    </XStack>
+  </YStack>
+  )
+} 
 
 function DifficultyCheckBox( {label,index,difficulties, setDifficulty} : 
   { label: string, index: number, difficulties: boolean[], setDifficulty: (index: number, value: boolean) => void}
 ) {
-  // const onCheckedChangeHelper = (v: boolean) => {
-  //   const arrCopy = [...difficulties]
-  //   arrCopy[index] = v;
-  //   setDifficulties(arrCopy)
-  // }
   return (
     <YStack width={300}>
       <XStack width={300} ai='center'>
@@ -31,14 +43,6 @@ function DifficultyCheckBox( {label,index,difficulties, setDifficulty} :
 }
 
 export default function TossupSettingsModal() {
-  // const [difficulties, setDifficulties] = useState([false, true, true, true, true, false, false, false, false, false]);
-
-  // useEffect(() => {
-  //   const helper = async () => {
-  //     await AsyncStorage.setItem('difficulties', JSON.stringify(difficulties))
-  //   }
-  //   helper()
-  // }, [difficulties])
 
   const tossupSettings = useTossupSettings()
   

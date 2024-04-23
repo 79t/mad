@@ -3,11 +3,12 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "strict": true,
+    "module": "ESNext"
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+  ],
 }

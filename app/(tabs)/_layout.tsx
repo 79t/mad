@@ -12,7 +12,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="tossups"
         options={{
           title: 'Tossups',
           tabBarIcon: ({ color }) => <MessageCircleQuestion />,
