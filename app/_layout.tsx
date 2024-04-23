@@ -37,17 +37,7 @@ export function loadFonts() {
 }
 
 export default function RootLayout() {
-  // const [interLoaded, interError] = useFonts({
-  //   Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
-  //   InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
-  // })
-
   const [interLoaded, interError] = loadFonts()
-
-  // const [interLoaded, interError] = useFonts({
-    // Inter: '../assets/fonts/Inter-Medium.otf',
-    // InterBold: '../assets/fonts/Inter-Bold.otf'
-  // })
 
   useEffect(() => {
     if (interLoaded || interError) {
@@ -70,7 +60,6 @@ function RootLayoutNav() {
     <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
-          {/* <Stack.Screen name="start" /> */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="TossupSettingsModal" options={{ presentation: 'modal', title: 'Tossup Settings' }} />
           <Stack.Screen name="BonusSettingsModal" options={{ presentation: 'modal', title: 'Bonus Settings' }} />

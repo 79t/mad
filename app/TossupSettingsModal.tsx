@@ -88,7 +88,7 @@ export default function TossupSettingsModal() {
         </Accordion.Trigger>
         <Accordion.Content>
           <Paragraph>
-            Eggs have been a dietary staple since time immemorial and there’s good reason
+            Eggs have been a dietary staple since time immemorial and there's good reason
             for their continued presence in our menus and meals.
           </Paragraph>
         </Accordion.Content>
