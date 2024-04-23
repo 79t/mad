@@ -4,6 +4,8 @@ import { Text } from 'tamagui'
 import {ChevronsUp, MessageCircleQuestion, Settings} from '@tamagui/lucide-icons'
 import React from 'react'
 
+// hello
+
 export default function TabLayout() {
   return (
     <Tabs
