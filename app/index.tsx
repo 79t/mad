@@ -1,9 +1,11 @@
 import { View, Text, H3, Button } from 'tamagui'
 import React, { useEffect } from 'react'
 import { Link, useNavigation, router } from 'expo-router'
+import { useTossupSettings } from './stores/TossupSettingsStore'
 
 const IndexPage = () => {
   const nav = useNavigation()
+  const tuS = useTossupSettings()
   useEffect(() => {
     nav.setOptions({title: 'QB Mobile'})
   }, [])

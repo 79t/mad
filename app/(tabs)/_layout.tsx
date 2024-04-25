@@ -1,7 +1,7 @@
 import { Link, Tabs } from 'expo-router'
 import { Pressable } from 'react-native'
 import { Text } from 'tamagui'
-import {ChevronsUp, MessageCircleQuestion, Settings} from '@tamagui/lucide-icons'
+import {ChevronsUp, MessageCircleQuestion, Settings,Award} from '@tamagui/lucide-icons'
 import React from 'react'
 
 
@@ -38,6 +38,13 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+        }}
+      />
+      <Tabs.Screen 
+        name="stats"
+        options={{
+          title: 'Stats',
+          tabBarIcon: ({color}) => <Award />
         }}
       />
     </Tabs>

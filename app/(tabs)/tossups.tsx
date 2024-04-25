@@ -5,6 +5,7 @@ import { useInterval } from "../../constants/utils";
 import { ChevronDown } from "@tamagui/lucide-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTossupSettings } from "../stores/TossupSettingsStore";
+import { useTossupStats } from "../stores/StatsStores";
 
 type Tossup = {
   question: string;
@@ -19,13 +20,21 @@ export default function TabOneScreen() {
   const [answer, setAnswer] = useState("");
   const [position, setPosition] = useState(0);
   const [open, setOpen] = useState(false);
+  const [sessionCorrect, setSessionCorrect] = useState(0)
+  const [sessionIncorrect, setSessionIncorrect] = useState(0)
+  const sessionScore = (sessionCorrect * 10) + (sessionIncorrect * -5)
   const spMode = "fit";
   const modal = false;
+
+  const tossupSettings = useTossupSettings()
+  const tossupStats = useTossupStats()
 
   const getTossup = async () => {
     setLoading(true);
     try {
-      const req = await fetch("https://qbreader.org/api/random-tossup");
+      const diffsToUse = [...tossupSettings.difficulties.keys()].filter(x => tossupSettings.difficulties[x]).map(z => z+1).map(zz => `&difficulties=${zz}`).join('')
+      const catsToUse = tossupSettings.cat.map(c => `&categories=${c}`)
+      const req = await fetch(`https://qbreader.org/api/random-tossup?number=1${diffsToUse}${catsToUse}`);
       const res = await req.json();
       setData(res.tossups);
     } catch (error) {
@@ -52,10 +61,14 @@ export default function TabOneScreen() {
       console.log(res);
       if (res["directive"] == "accept") {
         alert("Correct!");
+        setSessionCorrect(sessionCorrect => sessionCorrect + 1)
+        tossupStats.addCorrect()
       } else if (res['directive'] == 'prompt') {
         alert("Prompt! try again");
       } else {
         alert(`Incorrect - the correct answer was ${data[0].answer}`)
+        setSessionIncorrect(sessionIncorrect => sessionIncorrect + 1)
+        tossupStats.addIncorrect()
       }
       if (res["directive"] == "accept") {
         setAnswer("");
@@ -83,7 +96,6 @@ export default function TabOneScreen() {
   }, []);
 
 
-  const {difficulties, setDifficulty} = useTossupSettings();
 
   const buzzButton = () => {
     setDisable((disable) => !disable);
@@ -97,12 +109,12 @@ export default function TabOneScreen() {
       ) : (
         <View flex={1}>
           <View flex={1}>
-            <Text>Hi {JSON.stringify(difficulties)}</Text>
             <Text fs={10} p={"$2"}>
               {data[0].question.split(" ").slice(0, i).join(" ")}
             </Text>
           </View>
           <View style={{ position: "relative", bottom: 0 }}>
+            <Text textAlign='center' mb='$2'>Session Score: {sessionScore} (✅: {sessionCorrect}, ❌: {sessionIncorrect})</Text>
             <Button onPress={() => buzzButton()}>
               <Text>Buzz</Text>
             </Button>
