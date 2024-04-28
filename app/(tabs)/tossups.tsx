@@ -10,6 +10,7 @@ import { useTossupStats } from "../stores/StatsStores";
 type Tossup = {
   question: string;
   answer: string;
+  category: string;
 };
 
 export default function TabOneScreen() {

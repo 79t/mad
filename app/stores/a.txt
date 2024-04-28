@@ -1,0 +1,45 @@
+
+  literature: {
+    correct: 0, 
+    incorrect: 0
+  },
+  history: {
+    correct: 0,
+    incorrect: 0,
+  },
+  science: {
+    correct: 0,
+    incorrect: 0
+  },
+  finearts: {
+    correct: 0,
+    incorrect: 0
+  },
+  religion: {
+    correct: 0,
+    incorrect: 0
+  },
+  mythology: {
+    correct: 0,
+    incorrect: 0,
+  },
+  philosophy: {
+    correct: 0,
+    incorrect: 0
+  },
+  socialscience: {
+    correct: 0,
+    incorrect: 0
+  },
+  currentevents: {
+    correct: 0,
+    incorrect: 0
+  },
+  otheracademic: {
+    correct: 0,
+    incorrect: 0
+  },
+  trash: {
+    correct: 0,
+    incorrect: 0
+  }
