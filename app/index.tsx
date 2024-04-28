@@ -2,13 +2,16 @@ import { View, Text, H3, Button } from 'tamagui'
 import React, { useEffect } from 'react'
 import { Link, useNavigation, router } from 'expo-router'
 import { useTossupSettings } from './stores/TossupSettingsStore'
+import { useTossupStats } from './stores/StatsStores'
 
 const IndexPage = () => {
   const nav = useNavigation()
   const tuS = useTossupSettings()
+  const tuSS = useTossupStats()
   useEffect(() => {
     nav.setOptions({title: 'QB Mobile'})
   }, [])
+
   return (
     <View f={1} ai='center' jc='center' mx='$5'>
       <H3 mb='$3'>Welcome to QB Mobile! Click the below buttons to begin</H3>

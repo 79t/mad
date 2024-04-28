@@ -1,74 +1,41 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//  ['Literature', 'History', 'Science', 'Fine Arts', 'Religion', 'Mythology', 'Philosophy', 'Social Science', 'Current Events', 'Geography', 'Other Academic', 'Trash']
 
-type VC = 'literature' | 'history' | 'science' | 'finearts' | 'religion' | 'mythology' | 'philosophy' | 'socialscience' | 'geography' | 'otheracademic' | 'trash'
+type ValidCategory = 'literature' | 'history' | 'science' | 'finearts' | 'religion' | 'mythology' | 'philosophy' | 'socialscience' | 'geography' | 'otheracademic' | 'trash' | 'currentevents'
+export type {ValidCategory, TossupStats}
+type CatStat = {
+  correct: number,
+  incorrect: number
+}
 
-type CatStats = {
-  literature: {
-    correct: number;
-    incorrect: number;
-  };
-  history: {
-    correct: number;
-    incorrect: number;
-  };
-  science: {
-    correct: number;
-    incorrect: number;
-  };
-  finearts: {
-    correct: number;
-    incorrect: number;
-  };
-  religion: {
-    correct: number;
-    incorrect: number;
-  };
-  mythology: {
-    correct: number;
-    incorrect: number;
-  };
-  philosophy: {
-    correct: number;
-    incorrect: number;
-  };
-  socialscience: {
-    correct: number;
-    incorrect: number;
-  };
-  currentevents: {
-    correct: number;
-    incorrect: number;
-  };
-  otheracademic: {
-    correct: number;
-    incorrect: number;
-  };
-  trash: {
-    correct: number;
-    incorrect: number;
-  };
-};
+type CatStats = Record<ValidCategory, CatStat>
 
 type TossupStats = {
   correct: number;
   incorrect: number;
-  addCorrect: (cat: string) => void;
-  addIncorrect: (cat: string) => void;
+  addCorrect: (thecat: ValidCategory) => void;
+  addIncorrect: (thecat: ValidCategory) => void;
+  sCS: (cs: CatStats) => void
   catStats: CatStats;
 };
 
 export const useTossupStats = create<TossupStats>()(
   persist(
     (set) => ({
+      sCS(cs) {
+        set({catStats: cs})    
+      },
       incorrect: 0,
       correct: 0,
-      addCorrect: (cat) => set((prev) => ({
+      addCorrect: (thecat) => set((prev) => ({
          correct: prev.correct + 1,
+         catStats: {...prev.catStats, [thecat]: {...prev.catStats[thecat], correct: prev.catStats[thecat].correct + 1}}
        })),
-      addIncorrect: (cat) => set((prev) => ({ incorrect: prev.correct + 1 })),
+       addIncorrect: (thecat) => set((prev) => ({
+        incorrect: prev.incorrect + 1,
+        catStats: {...prev.catStats, [thecat]: {...prev.catStats[thecat], incorrect: prev.catStats[thecat].incorrect + 1}}
+      })),
       catStats: {
         literature: {
           correct: 0,
@@ -114,6 +81,10 @@ export const useTossupStats = create<TossupStats>()(
           correct: 0,
           incorrect: 0,
         },
+        geography: {
+          correct: 0,
+          incorrect: 0
+        }
       },
     }),
     {

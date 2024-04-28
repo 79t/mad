@@ -6,6 +6,7 @@ import { ChevronDown } from "@tamagui/lucide-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTossupSettings } from "../stores/TossupSettingsStore";
 import { useTossupStats } from "../stores/StatsStores";
+import type { ValidCategory } from "../stores/StatsStores";
 
 type Tossup = {
   question: string;
@@ -63,13 +64,16 @@ export default function TabOneScreen() {
       if (res["directive"] == "accept") {
         alert("Correct!");
         setSessionCorrect(sessionCorrect => sessionCorrect + 1)
-        tossupStats.addCorrect()
+        console.log("CATEGORY", data[0].category.toLowerCase().split(' ').join('') as ValidCategory as string)
+        tossupStats.addCorrect(data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
       } else if (res['directive'] == 'prompt') {
         alert("Prompt! try again");
       } else {
         alert(`Incorrect - the correct answer was ${data[0].answer}`)
         setSessionIncorrect(sessionIncorrect => sessionIncorrect + 1)
-        tossupStats.addIncorrect()
+        console.log('Inco')
+        console.log("CATEGORY", data[0].category.toLowerCase().split(' ').join('') as ValidCategory as string)
+        tossupStats.addIncorrect(data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
       }
       if (res["directive"] == "accept") {
         setAnswer("");
