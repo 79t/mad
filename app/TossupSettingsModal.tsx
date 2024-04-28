@@ -43,7 +43,6 @@ function DifficultyCheckBox( {label,index,difficulties, setDifficulty} :
 export default function TossupSettingsModal() {
 
   const tossupSettings = useTossupSettings()
-  console.log(tossupSettings.cat)
   
   return (
     <>

@@ -49,9 +49,6 @@ export default function TabOneScreen() {
   };
 
   const checkAnswer = async () => {
-    console.log("CHECK ANSWER");
-    console.log(data[0].answer)
-    console.log(answer)
     try {
       const req = await fetch(`
       https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(
@@ -60,19 +57,15 @@ export default function TabOneScreen() {
       `);
   
       const res = await req.json();
-      console.log(res);
       if (res["directive"] == "accept") {
         alert("Correct!");
         setSessionCorrect(sessionCorrect => sessionCorrect + 1)
-        console.log("CATEGORY", data[0].category.toLowerCase().split(' ').join('') as ValidCategory as string)
         tossupStats.addCorrect(data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
       } else if (res['directive'] == 'prompt') {
         alert("Prompt! try again");
       } else {
         alert(`Incorrect - the correct answer was ${data[0].answer}`)
         setSessionIncorrect(sessionIncorrect => sessionIncorrect + 1)
-        console.log('Inco')
-        console.log("CATEGORY", data[0].category.toLowerCase().split(' ').join('') as ValidCategory as string)
         tossupStats.addIncorrect(data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
       }
       if (res["directive"] == "accept") {
