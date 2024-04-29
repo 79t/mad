@@ -35,7 +35,7 @@ export default function TabOneScreen() {
     setLoading(true);
     try {
       const diffsToUse = [...tossupSettings.difficulties.keys()].filter(x => tossupSettings.difficulties[x]).map(z => z+1).map(zz => `&difficulties=${zz}`).join('')
-      const catsToUse = tossupSettings.cat.map(c => `&categories=${c}`)
+      const catsToUse = tossupSettings.cat.map((c: any) => `&categories=${c}`)
       const req = await fetch(`https://qbreader.org/api/random-tossup?number=1${diffsToUse}${catsToUse}`);
       const res = await req.json();
       setData(res.tossups);
@@ -59,13 +59,13 @@ export default function TabOneScreen() {
       const res = await req.json();
       if (res["directive"] == "accept") {
         alert("Correct!");
-        setSessionCorrect(sessionCorrect => sessionCorrect + 1)
+        setSessionCorrect((sessionCorrect: number) => sessionCorrect + 1)
         tossupStats.addCorrect(data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
       } else if (res['directive'] == 'prompt') {
         alert("Prompt! try again");
       } else {
         alert(`Incorrect - the correct answer was ${data[0].answer}`)
-        setSessionIncorrect(sessionIncorrect => sessionIncorrect + 1)
+        setSessionIncorrect((sessionIncorrect: number) => sessionIncorrect + 1)
         tossupStats.addIncorrect(data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
       }
       if (res["directive"] == "accept") {
@@ -86,18 +86,16 @@ export default function TabOneScreen() {
 
   useInterval(() => {
     if (!isLoading && !disable && i <= data[0].question.split(" ").length)
-      setI((i) => i + 1);
+      setI((i: number) => i + 1);
   }, 200);
 
-  useEffect(() => {
-    getTossup();
-  }, []);
+ 
 
 
 
   const buzzButton = () => {
-    setDisable((disable) => !disable);
-    setOpen((open) => !open);
+    setDisable((disable: any) => !disable);
+    setOpen((open: any) => !open);
   };
 
   return (
@@ -149,10 +147,10 @@ export default function TabOneScreen() {
                 mb="$5"
                 circular
                 icon={ChevronDown}
-                onPress={() => { setOpen(false); setDisable(disable => !disable)}}
+                onPress={() => { setOpen(false); setDisable((disable: any) => !disable)}}
               />
               <Text>Type your answer here</Text>
-              <Input flex={1} mt="$3" size="$4" width={200} value={answer} onChangeText={v => setAnswer(v)} />
+              <Input flex={1} mt="$3" size="$4" width={200} value={answer} onChangeText={(v: any) => setAnswer(v)} />
               <Button onPress={() => checkAnswer()} mt={"$5"}>
                 Submit answer
               </Button>
