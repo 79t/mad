@@ -11,6 +11,8 @@ type Bonus = {
   answer: [string, string, string];
   category: string;
 };
+
+
 export default function TabOneScreen() {
   const [data, setData] = useState<Bonus[]>([]);
   const [isLoading, setLoading] = useState(true);
@@ -24,8 +26,9 @@ export default function TabOneScreen() {
   const sessionScore = (sessionCorrect * 10) + (sessionIncorrect * -5)
   const spMode = "fit";
   const modal = false;
-  const threePartBonuses = true;
   var n = 0;
+  const threePartBonuses = true;
+
   const tossupSettings = useTossupSettings()
   const bonusStats = useTossupStats()
   
@@ -35,7 +38,8 @@ export default function TabOneScreen() {
     try {
       const diffsToUse = [...tossupSettings.difficulties.keys()].filter(x => tossupSettings.difficulties[x]).map(z => z+1).map(zz => `&difficulties=${zz}`).join('')
       const catsToUse = tossupSettings.cat.map((c: any) => `&categories=${c}`)
-      const req = await fetch(`https://qbreader.org/api/random-bonus?number=1${diffsToUse}${catsToUse}`);
+      // const req = await fetch(`https://www.qbreader.org/api/random-bonus?number=1${diffsToUse}${catsToUse}`);
+      const req = await fetch(`https://www.qbreader.org/api/random-bonus`);
       const res = await req.json();
       setData(res.bonuses);
     } catch (error) {
@@ -91,7 +95,7 @@ export default function TabOneScreen() {
     <View flex = {1}>
       useEffect()
       <View flex = {1}>
-        {data[0].parts[0].split(" ").slice(0, i).join(" ")}
+        {data[0].leadin.split(" ").slice(0, i).join(" ")}
       </View>
     </View>
   )
