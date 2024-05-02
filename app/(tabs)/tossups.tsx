@@ -5,8 +5,8 @@ import { useInterval } from "../../constants/utils";
 import { ChevronDown } from "@tamagui/lucide-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTossupSettings } from "../stores/TossupSettingsStore";
-import { useTossupStats } from "../stores/StatsStores";
-import type { ValidCategory } from "../stores/StatsStores";
+import { useTossupStats } from "../stores/TossupStatsStore";
+import type { ValidCategory } from "../stores/TossupStatsStore";
 
 type Tossup = {
   question: string;

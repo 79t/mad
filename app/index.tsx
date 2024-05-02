@@ -2,7 +2,7 @@ import { View, Text, H3, Button } from 'tamagui'
 import React, { useEffect } from 'react'
 import { Link, useNavigation, router } from 'expo-router'
 import { useTossupSettings } from './stores/TossupSettingsStore'
-import { useTossupStats } from './stores/StatsStores'
+import { useTossupStats } from './stores/TossupStatsStore'
 
 const IndexPage = () => {
   const nav = useNavigation()

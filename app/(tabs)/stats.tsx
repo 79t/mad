@@ -14,8 +14,9 @@ import {
   TossupStats,
   ValidCategory,
   useTossupStats,
-} from "../stores/StatsStores";
+} from "../stores/TossupStatsStore";
 import { ChevronDown } from "@tamagui/lucide-icons";
+import { BonusStats, useBonusStats } from "../stores/BonusStatsStore";
 
 const category_translations: Record<ValidCategory, string> = {
   'literature': 'Literature',
@@ -32,7 +33,35 @@ const category_translations: Record<ValidCategory, string> = {
   'currentevents': 'Current Events'
 }
 
-function IndividualCategoryStat({
+function BonusIndividualCategoryStat({
+  cat,
+  bStats
+}: { cat: ValidCategory, bStats: BonusStats }) {
+  return (
+    <Accordion.Item value={`a${Math.floor(Math.random() * 100)}`}>
+    <Accordion.Trigger flexDirection="row" justifyContent="space-between">
+      {({ open }: { open: boolean }) => (
+        <>
+          <Paragraph>{category_translations[cat]}</Paragraph>
+          <Square animation="quick" rotate={open ? "180deg" : "0deg"}>
+            <ChevronDown size="$1" />
+          </Square>
+        </>
+      )}
+    </Accordion.Trigger>
+    <Accordion.Content>
+        <Paragraph>0: {bStats.catStats[cat][0]} </Paragraph>
+        <Paragraph>10: {bStats.catStats[cat][10]}</Paragraph> 
+        <Paragraph>20: {bStats.catStats[cat][20]}</Paragraph> 
+        <Paragraph>30: {bStats.catStats[cat][30]}</Paragraph> 
+        <Paragraph>Total: {bStats.catStats[cat][0] + bStats.catStats[cat][10] + bStats.catStats[cat][20] + bStats.catStats[cat][30]}</Paragraph>
+    </Accordion.Content>
+  </Accordion.Item>
+
+  )
+}
+
+function TossupIndividualCategoryStat({
   cat,
   tuStats,
 }: {
@@ -63,73 +92,49 @@ function IndividualCategoryStat({
 
 export default function StatsScreen() {
   const tuStats = useTossupStats();
+  const bStats = useBonusStats();
   return (
     <ScrollView ai="center" f={1}>
       <YStack gap="$2">
-        <H2 mt="$3">Tossups</H2>
+         <H2 mt="$3">Tossups</H2>
         <Text>Questions correct: {tuStats.correct}</Text>
         <Text>Questions incorrect: {tuStats.incorrect}</Text>
         <H3>Tossups by Category</H3>
-        {/* <Text>{JSON.stringify(tuStats.catStats)}</Text> */}
         <Accordion overflow="hidden" width="$20" type="multiple">
           {Object.keys(category_translations).map((category) => 
-            <IndividualCategoryStat key={category} cat={category as ValidCategory} tuStats={tuStats} />
+            <TossupIndividualCategoryStat key={category} cat={category as ValidCategory} tuStats={tuStats} />
+          )}
+        </Accordion>
+        <H2>Bonuses</H2>
+        <Text>0: {bStats[0]}</Text>      
+        <Text>10: {bStats[10]}</Text>      
+        <Text>20: {bStats[20]}</Text>     
+        <Text>30: {bStats[30]}</Text>      
+        <H3>Bonuses by Category</H3>
+        <Accordion overflow="hidden" width="$20" type="multiple">
+          {Object.keys(category_translations).map((category) => 
+            <BonusIndividualCategoryStat key={category} cat={category as ValidCategory} bStats={bStats} />
           )}
         </Accordion>
 
-        <Button bg='$red10' onPress={() => tuStats.sCS({
-        literature: {
-          correct: 0,
-          incorrect: 0,
-        },
-        history: {
-          correct: 0,
-          incorrect: 0,
-        },
-        science: {
-          correct: 0,
-          incorrect: 0,
-        },
-        finearts: {
-          correct: 0,
-          incorrect: 0,
-        },
-        religion: {
-          correct: 0,
-          incorrect: 0,
-        },
-        mythology: {
-          correct: 0,
-          incorrect: 0,
-        },
-        philosophy: {
-          correct: 0,
-          incorrect: 0,
-        },
-        socialscience: {
-          correct: 0,
-          incorrect: 0,
-        },
-        currentevents: {
-          correct: 0,
-          incorrect: 0,
-        },
-        otheracademic: {
-          correct: 0,
-          incorrect: 0,
-        },
-        trash: {
-          correct: 0,
-          incorrect: 0,
-        },
-        geography: {
-          correct: 0,
-          incorrect: 0
-        }
-      })}>
-          !! RESET ALL TOSSUP CAT STATS !!
-        </Button>
       </YStack>
     </ScrollView>
+    
+    /* <ScrollView ai="center" f={1}>
+      <YStack gap="$2">
+      <H2>Bonuses</H2>
+        <Text>0: {bStats[0]}</Text>      
+        <Text>10: {bStats[10]}</Text>      
+        <Text>20: {bStats[20]}</Text>     
+        <Text>30: {bStats[30]}</Text>      
+        <H3>Bonuses by Category</H3>
+        <Accordion overflow="hidden" width="$20" type="multiple">
+          {Object.keys(category_translations).map((category) => 
+            <BonusIndividualCategoryStat key={category} cat={category as ValidCategory} bStats={bStats} />
+          )}
+        </Accordion>
+        </YStack>
+    </ScrollView>*/
+
   );
 }
