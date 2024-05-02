@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
-import { Button, Text, View, Checkbox } from "tamagui";
-import { Check } from "@tamagui/lucide-icons";
+import { Button, Text, View, ScrollView} from "tamagui";
 
 type Bonus = {
   leadin: string;
@@ -20,6 +19,10 @@ function getCorrectCheckbox(state: boolean | undefined) {
     default:
       return 'ummmm'
   }
+}
+
+function cleanAnswer(answer: string) {
+  return answer.replaceAll(/<\/?(b|i|u)>/g, '')
 }
 
 export default function TabOneScreen() {
@@ -44,32 +47,37 @@ export default function TabOneScreen() {
   useEffect(() => {
     getBonus();
   }, []);
+
   return (
     <View f={1}>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
         <View f={1}>
-          <View f={1}>
+          <ScrollView f={1}>
             <Text p="$3" fs={10}>
-              {data[0].leadin}
+              {cleanAnswer(data[0].leadin)}
             </Text>
             <Text px="$3" fs={10} mt="$2">
               - { `${getCorrectCheckbox(result[0])} ${data[0].parts[0]}` }
             </Text>
+            <Text>
+              {i >= 1 ? `  ANSWER: ${cleanAnswer(data[0].answers[0])}`: ''}
+            </Text>
             <Text px="$3" py="$2" fs={10} mt="$2">
               {i >= 1 ? `- ${getCorrectCheckbox(result[1])} ${data[0].parts[1]}` : ""}
             </Text>
-            <Text px="$3" fs={10} mt="$2">
+            <Text>
+              {i >= 2 ? `  ANSWER: ${cleanAnswer(data[0].answers[1])}`: ''}
+            </Text>
+            <Text px="$3" fs={10} mt="$4">
               {i >= 2 ? `- ${getCorrectCheckbox(result[2])} ${data[0].parts[2]}` : ""}
             </Text>
-          </View>
+            <Text>
+              {i >= 3 ? `  ANSWER: ${cleanAnswer(data[0].answers[2])}`: ''}
+            </Text>
+          </ScrollView>
           <View pos="relative" b={0}>
-            <Button onPress={() => {
-              const newArr = [...result]
-              newArr[0] = true
-              setResults(newArr)
-            }}>Test</Button>
             <Button onPress={() => setI((i) => i + 1)}>Reveal</Button>
             <Button onPress={() => getBonus()}>New question</Button>
           </View>
