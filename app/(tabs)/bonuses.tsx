@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { Button, Text, View, ScrollView, Sheet, Input } from "tamagui";
 import { ChevronDown } from "@tamagui/lucide-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useBonusSettings } from "../stores/BonusSettingsStore";
 import { useBonusStats } from "../stores/BonusStatsStore";
 import type { ValidCategory } from "../stores/TossupStatsStore";
@@ -31,78 +30,88 @@ function cleanAnswer(answer: string) {
   return answer.replaceAll(/<\/?(b|i|u)>/g, "");
 }
 
-
-
 export default function TabOneScreen() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Bonus[]>([]);
-  const [position, setPosition] = useState(0)
-  const [open, setOpen] = useState(false)
-  const [answer, setAnswer] = useState('')
+  const [position, setPosition] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [answer, setAnswer] = useState("");
   const [result, setResults] = useState<(boolean | undefined)[]>([
     undefined,
     undefined,
     undefined,
   ]);
   const [i, setI] = useState(0);
-  const [sessionCorrect, setSessionCorrect] = useState(0)
-  const [sessionIncorrect, setSessionIncorrect] = useState(0)
-  const sessionScore = (sessionCorrect * 10) + (sessionIncorrect * -5)
-  const bonusSettings = useBonusSettings()
-  const bonusStats = useBonusStats()
-  
+  const [sessionCorrect, setSessionCorrect] = useState(0);
+  const [sessionIncorrect, setSessionIncorrect] = useState(0);
+  const sessionScore = sessionCorrect * 10 + sessionIncorrect * -5;
+  const bonusSettings = useBonusSettings();
+  const bonusStats = useBonusStats();
+
   const getBonus = async () => {
     setLoading(true);
     try {
-      const diffsToUse = [...bonusSettings.difficulties.keys()].filter(x => bonusSettings.difficulties[x]).map(z => z+1).map(zz => `&difficulties=${zz}`).join('')
-      const catsToUse = bonusSettings.cat.map(c => `&categories=${c}`)
-      const req = await fetch(`https://qbreader.org/api/random-bonus?number=1${diffsToUse}${catsToUse}`);
+      const diffsToUse = [...bonusSettings.difficulties.keys()]
+        .filter((x) => bonusSettings.difficulties[x])
+        .map((z) => z + 1)
+        .map((zz) => `&difficulties=${zz}`)
+        .join("");
+      const catsToUse = bonusSettings.cat.map((c) => `&categories=${c}`);
+      const req = await fetch(
+        `https://qbreader.org/api/random-bonus?number=1${diffsToUse}${catsToUse}`
+      );
       const res = await req.json();
       setData(res.bonuses);
     } catch (e) {
       console.error(e);
     } finally {
-      console.log(data[0].category)
-      bonusStats.addCorrect(result.filter(x => x).length * 10 as (0|10|20|30), data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
+      console.log(data[0].category);
+      bonusStats.addCorrect(
+        (result.filter((x) => x).length * 10) as 0 | 10 | 20 | 30,
+        data[0].category.toLowerCase().split(" ").join("") as ValidCategory
+      );
       setI(0);
-      setAnswer('')
-      setResults([undefined, undefined, undefined])
+      setAnswer("");
+      setResults([undefined, undefined, undefined]);
       setLoading(false);
     }
   };
-  
-  const checkAnswer = async  () => {
+
+  const checkAnswer = async () => {
     try {
       const req = await fetch(`
       https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(
         data[0].answers[i]
       )}&givenAnswer=${answer}
       `);
-      const res = await req.json()
-      
-      if (res['directive'] == 'accept') {
-        alert('Correct!')
-        setI(i => i+1)
-        setSessionCorrect(sessionCorrect => sessionCorrect + 1)
-        const tmpArr = [...result]
-        tmpArr[i] = true
-        setResults(tmpArr)
-      } else if (res['directive'] == 'prompt') {
-        alert('Prompt! Try again')
+      const res = await req.json();
+
+      if (res["directive"] == "accept") {
+        alert("Correct!");
+        setI((i) => i + 1);
+        setSessionCorrect((sessionCorrect) => sessionCorrect + 1);
+        const tmpArr = [...result];
+        tmpArr[i] = true;
+        setResults(tmpArr);
+      } else if (res["directive"] == "prompt") {
+        alert("Prompt! Try again");
       } else {
-        alert(`Incorrect - the correct answer was ${cleanAnswer(data[0].answers[i])}`) 
-        setI(i => i+1)
-        const tmpArr = [...result]
-        tmpArr[i] = false
-        setResults(tmpArr)
+        alert(
+          `Incorrect - the correct answer was ${cleanAnswer(
+            data[0].answers[i]
+          )}`
+        );
+        setI((i) => i + 1);
+        const tmpArr = [...result];
+        tmpArr[i] = false;
+        setResults(tmpArr);
       }
-      setAnswer("")
-      setOpen(false) 
-    } 
-    catch (e) {
-      console.warn(e)
-    };
-  }
+      setAnswer("");
+      setOpen(false);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
 
   useEffect(() => {
     getBonus();
@@ -189,7 +198,7 @@ export default function TabOneScreen() {
             </Sheet>
           </ScrollView>
           <View pos="relative" b={0}>
-            <Button onPress={() => setOpen(open => !open)}>Answer</Button>
+            <Button onPress={() => setOpen((open) => !open)}>Answer</Button>
             <Button onPress={() => getBonus()}>New question</Button>
           </View>
         </View>

@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Text, View, Button, Input, Sheet } from "tamagui";
-import { ActivityIndicator, Pressable } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { useInterval } from "../../constants/utils";
 import { ChevronDown } from "@tamagui/lucide-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTossupSettings } from "../stores/TossupSettingsStore";
 import { useTossupStats } from "../stores/TossupStatsStore";
 import type { ValidCategory } from "../stores/TossupStatsStore";
@@ -25,7 +24,6 @@ export default function TabOneScreen() {
   const [sessionCorrect, setSessionCorrect] = useState(0)
   const [sessionIncorrect, setSessionIncorrect] = useState(0)
   const sessionScore = (sessionCorrect * 10) + (sessionIncorrect * -5)
-  const spMode = "fit";
   const modal = false;
 
   const tossupSettings = useTossupSettings()

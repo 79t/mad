@@ -1,6 +1,5 @@
 import {Input, Text, Button, Accordion, Paragraph, Square, YStack, Checkbox, XStack, Label, ScrollView} from 'tamagui'
 import { ChevronDown, Check as CheckIcon } from '@tamagui/lucide-icons';
-// import {useTossupSettings} from './stores/TossupSettingsStore'
 import { useBonusSettings } from './stores/BonusSettingsStore';
 
 function CategoryCheckBox({category, categories, addCategory, removeCategory} : {category:string, categories: string[], addCategory: (category: string) => void, removeCategory: (category: string) => void}) {
