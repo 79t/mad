@@ -60,22 +60,38 @@ export default function TabOneScreen() {
       const req = await fetch(
         `https://qbreader.org/api/random-bonus?number=1${diffsToUse}${catsToUse}`
       );
-      const res = await req.json();
+      const res = await req.json()
       setData(res.bonuses);
     } catch (e) {
       console.error(e);
     } finally {
-      console.log(data[0].category);
-      bonusStats.addCorrect(
-        (result.filter((x) => x).length * 10) as 0 | 10 | 20 | 30,
-        data[0].category.toLowerCase().split(" ").join("") as ValidCategory
-      );
+      // if (data.length > 0) {
+      //   console.log(data[0].category);
+      //   console.log(data[0].answers)
+      //   console.log(data[0].leadin)
+      //   console.log(data[0].parts)
+      // }
+
+      // bonusStats.addCorrect(
+      //   (result.filter((x) => x).length * 10) as 0 | 10 | 20 | 30,
+      //   data[0].category.toLowerCase().split(" ").join("") as ValidCategory
+      // );
       setI(0);
       setAnswer("");
       setResults([undefined, undefined, undefined]);
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (i >= 3) {
+      bonusStats.addCorrect(
+        result.filter((x) => x).length * 10 as 0|10|20|30,
+        data[0].category.toLowerCase().split(" ").join("") as ValidCategory
+      )
+    }
+  }, [i])
+
 
   const checkAnswer = async () => {
     try {
@@ -125,10 +141,10 @@ export default function TabOneScreen() {
         <View f={1}>
           <ScrollView f={1}>
             <Text p="$3" fs={10}>
-              {cleanAnswer(data[0].leadin)}
+              {cleanAnswer(data[0]?.leadin)}
             </Text>
             <Text px="$3" fs={10} mt="$2">
-              - {`${getCorrectCheckbox(result[0])} ${data[0].parts[0]}`}
+              - {`${getCorrectCheckbox(result[0])} ${data[0]?.parts[0]}`}
             </Text>
             <Text>
               {i >= 1 ? `  ANSWER: ${cleanAnswer(data[0].answers[0])}` : ""}
@@ -191,7 +207,9 @@ export default function TabOneScreen() {
                   value={answer}
                   onChangeText={(v) => setAnswer(v)}
                 />
-                <Button onPress={() => checkAnswer()} mt={"$5"}>
+                <Button mt='$5' onPress={() => {
+                  checkAnswer()
+                }}>
                   Submit answer
                 </Button>
               </Sheet.Frame>
