@@ -49,6 +49,7 @@ export default function TabOneScreen() {
   const bonusStats = useBonusStats();
 
   const getBonus = async () => {
+    // if (!initBonus) bonusStats.addCorrect(result.filter((x) => x).length * 10 as 0|10|20|30, data[0]?.category.toLowerCase().split(" ").join(" ") as ValidCategory)
     setLoading(true);
     try {
       const diffsToUse = [...bonusSettings.difficulties.keys()]
