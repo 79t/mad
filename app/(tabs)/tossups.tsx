@@ -13,6 +13,9 @@ type Tossup = {
   category: string;
 };
 
+function cleanText(answer: string) {
+  return answer.replaceAll(/<\/?(b|i|u)>/g, "");
+}
 export default function TabOneScreen() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<Tossup[]>([]);
@@ -43,6 +46,7 @@ export default function TabOneScreen() {
       setI(1);
       setLoading(false);
       setDisable(false)
+      setAnswer('')
     }
   };
 
@@ -62,9 +66,10 @@ export default function TabOneScreen() {
       } else if (res['directive'] == 'prompt') {
         alert("Prompt! try again");
       } else {
-        alert(`Incorrect - the correct answer was ${data[0].answer}`)
+        alert(`Incorrect - the correct answer was ${cleanText(data[0].answer)}`)
         setSessionIncorrect(sessionIncorrect => sessionIncorrect + 1)
         tossupStats.addIncorrect(data[0].category.toLowerCase().split(' ').join('') as ValidCategory)
+        getTossup()
       }
       if (res["directive"] == "accept") {
         setAnswer("");
@@ -73,6 +78,7 @@ export default function TabOneScreen() {
         await getTossup();
       }
       if (res['directive'] == 'reject') {
+        cleanText(data[0].question)
         setI(data[0].question.split(" ").length)
         setOpen(false)
       }
@@ -92,7 +98,6 @@ export default function TabOneScreen() {
   }, []);
 
 
-
   const buzzButton = () => {
     setDisable((disable) => !disable);
     setOpen((open) => !open);
@@ -106,7 +111,7 @@ export default function TabOneScreen() {
         <View flex={1}>
           <View flex={1}>
             <Text fs={10} p={"$2"}>
-              {data[0].question.split(" ").slice(0, i).join(" ")}
+              {cleanText(data[0].question.split(" ").slice(0, i).join(" "))}
             </Text>
           </View>
           <View style={{ position: "relative", bottom: 0 }}>

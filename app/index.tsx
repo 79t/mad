@@ -20,6 +20,7 @@ const IndexPage = () => {
       </Button>
       <Button
         size="$4"
+        backgroundColor="blue"
         onPress={() => router.replace("/(tabs)/bonuses")}
         mb="$3"
       >
