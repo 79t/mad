@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export type TossupSettings = {
+export type BonusSettings = {
   difficulties: boolean[];
   setDifficulty: (index: number, value: boolean) => void;
   cat: string[];
@@ -11,7 +11,7 @@ export type TossupSettings = {
   sCat: (cc: string[]) => void;
 };
 
-export const useTossupSettings = create<TossupSettings>()(
+export const useBonusSettings = create<BonusSettings>()(
   persist(
     (set, get) => ({
       difficulties: [
@@ -53,7 +53,7 @@ export const useTossupSettings = create<TossupSettings>()(
       },
     }),
     {
-      name: "tossupSettingsStorage", // name of the item in the storage (must be unique)
+      name: "bonusSettingsStorage", // name of the item in the storage (must be unique)
       storage: createJSONStorage(() => AsyncStorage), // (optional) by default, 'localStorage' is used
     }
   )
