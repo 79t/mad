@@ -6,6 +6,7 @@ import { useBonusSettings } from "../stores/BonusSettingsStore";
 import { useBonusStats } from "../stores/BonusStatsStore";
 import type { ValidCategory } from "../stores/TossupStatsStore";
 
+
 type Bonus = {
   leadin: string;
   parts: string[];
@@ -83,6 +84,7 @@ export default function TabOneScreen() {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     if (i >= 3) {
