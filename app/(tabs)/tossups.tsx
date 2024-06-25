@@ -93,7 +93,10 @@ export default function TabOneScreen() {
       setI((i: number) => i + 1);
   }, 200);
 
- 
+
+  useEffect(() => {
+    getTossup()
+  }, [])
 
 
   const buzzButton = () => {
