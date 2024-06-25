@@ -6,6 +6,7 @@ import { ChevronDown } from "@tamagui/lucide-icons";
 import { useTossupSettings } from "../stores/TossupSettingsStore";
 import { useTossupStats } from "../stores/TossupStatsStore";
 import type { ValidCategory } from "../stores/TossupStatsStore";
+import axios from 'axios'
 
 type Tossup = {
   question: string;
@@ -52,13 +53,15 @@ export default function TabOneScreen() {
 
   const checkAnswer = async () => {
     try {
-      const req = await fetch(`
-      https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(
-        data[0].answer
-      )}&givenAnswer=${answer}
-      `);
+      // const req = await fetch(`
+      // https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(
+      //   data[0].answer
+      // )}&givenAnswer=${answer}
+      // `);
   
-      const res = await req.json();
+      // const res = await req.json();
+      const req = await axios.get(`https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(data[0].answer)}&givenAnswer=${answer}`)
+      const res = req.data
       if (res["directive"] == "accept") {
         alert("Correct!");
         setSessionCorrect((sessionCorrect: number) => sessionCorrect + 1)
@@ -84,7 +87,8 @@ export default function TabOneScreen() {
       }
   
     } catch (e) {
-      console.warn(e)
+      console.warn("Request failed ??")
+      console.error(e)
     }
   };
 

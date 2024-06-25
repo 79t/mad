@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-router-example",
-    "slug": "expo-router-example",
+    "name": "qb mobile",
+    "slug": "qb-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -17,14 +17,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.exporouterexample"
+      "bundleIdentifier": "one.suhas.qbmobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.exporouterexample"
+      "package": "one.suhas.qbmobile"
     },
     "web": {
       "bundler": "metro",
@@ -45,6 +45,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "eb4711ba-e4b3-4b9b-a7d1-1cf402d9eaf6"
+      }
     }
   }
 }

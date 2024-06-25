@@ -5,6 +5,7 @@ import { ChevronDown } from "@tamagui/lucide-icons";
 import { useBonusSettings } from "../stores/BonusSettingsStore";
 import { useBonusStats } from "../stores/BonusStatsStore";
 import type { ValidCategory } from "../stores/TossupStatsStore";
+import axios from 'axios'
 
 
 type Bonus = {
@@ -97,13 +98,15 @@ export default function TabOneScreen() {
 
 
   const checkAnswer = async () => {
-    try {
-      const req = await fetch(`
-      https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(
-        data[0].answers[i]
-      )}&givenAnswer=${answer}
-      `);
-      const res = await req.json();
+    // try {
+      // const req = await fetch(`
+      // https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(
+        // data[0].answers[i]
+      // )}&givenAnswer=${answer}
+      // `);
+      const req = await axios.get(`https://qbreader.org/api/check-answer?answerline=${encodeURIComponent(data[0].answers[i])}&givenAnswer=${answer}`)
+      const res = req.data
+      // const res = await req.json();
 
       if (res["directive"] == "accept") {
         alert("Correct!");
@@ -127,9 +130,9 @@ export default function TabOneScreen() {
       }
       setAnswer("");
       setOpen(false);
-    } catch (e) {
-      console.warn(e);
-    }
+    // } catch (e) {
+    //   console.warn(e);
+    // }
   };
 
   useEffect(() => {

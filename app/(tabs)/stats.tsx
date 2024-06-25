@@ -7,6 +7,7 @@ import {
   Accordion,
   Paragraph,
   Square,
+  View,
 } from "tamagui";
 import {
   TossupStats,
@@ -102,7 +103,8 @@ export default function StatsScreen() {
   const tuStats = useTossupStats();
   const bStats = useBonusStats();
   return (
-    <ScrollView ai="center" f={1}>
+    <View style={{flex: 1}}>
+    <ScrollView contentContainerStyle={{'alignItems': 'center', flexGrow: 1}}>
       <YStack gap="$2">
         <H2 mt="$3">Tossups</H2>
         <Text>Questions correct: {tuStats.correct}</Text>
@@ -134,5 +136,6 @@ export default function StatsScreen() {
         </Accordion>
       </YStack>
     </ScrollView>
+    </View>
   );
 }
